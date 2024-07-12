@@ -8,11 +8,13 @@ import numpy as np
 def translate(pos):
     tx, ty, tz = pos
     return np.array([
-        [1, 0, 0, tx],
-        [0, 1, 0, ty],
-        [0, 0, 1, tz],
-        [0, 0, 0, 1]
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [tx, ty, tz, 1]
     ])
+
+
 # I already know these rotation matricessss TYPEEEE SHIIIIII
 
 def rotate_x(a):
