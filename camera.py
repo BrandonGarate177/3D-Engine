@@ -1,10 +1,6 @@
+import pygame as pg
 from matrix_functions import *
-import pygame as pg
-import numpy as np
-import math
-from projection import Projection
-from object_3d import Object3D
-import pygame as pg
+
 
 class Camera: 
     def __init__(self, render, position):
@@ -32,9 +28,10 @@ class Camera:
         fx, fy, fz, w = self.forward
         ux, uy, uz, w = self.up 
         return np.array([
-            [rx, ux, fx, 0], 
+            [rx, ux, fx, 0],
             [ry, uy, fy, 0],
-            [rz, uz, fz, 0]
+            [rz, uz, fz, 0],
+            [0, 0, 0, 1]
         ])
     
     def camera_matrix(self): 

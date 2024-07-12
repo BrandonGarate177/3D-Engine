@@ -1,7 +1,8 @@
 import pygame as pg
-from matrix_functions import * 
-from camera import *
-from projection import *
+from matrix_functions import *
+# from numba import njit
+
+
 
 class Object3D: 
     def __init__(self, render): 
@@ -30,21 +31,21 @@ class Object3D:
 
         for vertex in vertexes: 
             if not np.any((vertex == self.render.H_WIDTH) | (vertex == self.render.H_HEIGHT)):
-                pg.draw.circle(self.renser.screen, pg.Color('white'), vertex, 6 )
+                pg.draw.circle(self.render.screen, pg.Color('white'), vertex, 6 )
 
     def translate(self, pos): 
         self.vertexes = self.vertexes @ translate(pos)
 
     def scale(self, scale_to): 
-        self.vertexes = self.vertexes @ scale 
+        self.vertexes = self.vertexes @ scale(scale_to)
     
     def rotate_x(self, angle): 
-        self.vertexes = self.vertexes @ rotate_x
+        self.vertexes = self.vertexes @ rotate_x(angle)
 
     def rotate_y(self, angle): 
-        self.vertexes = self.vertexes @ rotate_y 
+        self.vertexes = self.vertexes @ rotate_y(angle)
 
     def rotate_z(self, angle): 
-        self.vertexes = self.vertexes @ rotate_z
+        self.vertexes = self.vertexes @ rotate_z(angle)
 
 # now o need to use a projection matrix 
