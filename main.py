@@ -1,4 +1,6 @@
+from object_3d import *
 import pygame as pg
+
 
 class SoftwareRender: 
     def __init__(self):
@@ -8,6 +10,7 @@ class SoftwareRender:
         self.FPS = 144 
         self.screen = pg.display.set_mode(self.RES)
         self.clock = pg.time.Clock()
+        self.create_objects()
 
 
     # Translation matrix 
@@ -29,6 +32,8 @@ class SoftwareRender:
     # this up here is deadass the most important part of the program, its the math type shit. I am gonna put it in a seperate file to make the program easier to code
     # im feeling big brain type shiiit 
 
+    def create_objects(self):
+        self.object = object(self)
 
     def draw(self):
         self.screen.fill((47, 79, 79))
