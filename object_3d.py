@@ -5,15 +5,18 @@ from matrix_functions import *
 
 
 class Object3D: 
-    def __init__(self, render, vertexes, faces): 
+    def __init__(self, render): 
         self.render = render
         # self.vertexes = np.array([np.array(v) for v in vertexes])
         
         # self.faces = np.array([np.array(face) for face in faces])
+        self.vertexes = np.array([(0, 0, 0, 1), (0, 1, 0, 1), (1, 1, 0, 1), (1, 0, 0, 1),
+                                  (0, 0, 1, 1), (0, 1, 1, 1), (1, 1, 1, 1), (1, 0, 1, 1) ])
+        
+        self.faces = np.array([(0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 5, 1), (2, 3, 7, 6), (1, 2, 6, 5), (0, 3, 7, 4)])
+       
+# THIS SHIT IS PISSING ME OFF^^^^^ 
 
-        self.vertexes = np.array([np.array(v) for v in vertexes], dtype=np.float32)
-        # Convert faces list to a numpy array
-        self.faces = np.array([np.array(face) for face in faces], dtype=np.int32)
 
         self.font = pg.font.SysFont('Arial', 30, bold=True)
         self.color_faces = [(pg.Color('orange'), face) for face in self.faces]
