@@ -3,7 +3,6 @@ from camera import *
 from projection import *
 import pygame as pg
 
-
 class SoftwareRender: 
     def __init__(self):
         pg.init()
