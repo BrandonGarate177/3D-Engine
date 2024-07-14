@@ -35,12 +35,13 @@ class SoftwareRender:
     # im feeling big brain type shiiit 
 
     def create_objects(self):
-        self.camera = Camera(self, [-5, 5, -50])
+        # self.camera = Camera(self, [-5, 5, -50])
+        self.camera = Camera(self , [0.5, 1, -4])
         self.projection = Projection(self)
         # self.object = self.get_object_from_file('resources/t_34_obj.obj')
         self.object = Object3D(self)
         self.object.translate([0.2, 0.4, 0.2])
-        self.object.rotate_y(math.pi / 6)
+        #self.object.rotate_y(math.pi / 6)
 
         # self.axes = Axes(self)
         # self.axes.translate([0.7, 0.9, 0.7])
