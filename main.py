@@ -12,6 +12,7 @@ class SoftwareRender:
         self.FPS = 144 
         self.screen = pg.display.set_mode(self.RES)
         self.clock = pg.time.Clock()
+        self.paused = False
         self.create_objects()
 
 
@@ -67,14 +68,79 @@ class SoftwareRender:
         # self.world_axes.draw()
         self.object.draw()
 
-    def run(self): 
-        while True:
-            self.draw()
-            self.camera.control()
-            [exit() for i in pg.event.get() if i.type == pg.QUIT]
-            pg.display.set_caption(str(self.clock.get_fps()))
-            pg.display.flip()
-            self.clock.tick(self.FPS)
+    # def run(self): 
+    #     while True:
+    #         self.draw()
+    #         self.camera.control()
+    #         [exit() for i in pg.event.get() if i.type == pg.QUIT]
+    #         pg.display.set_caption(str(self.clock.get_fps()))
+    #         pg.display.flip()
+    #         self.clock.tick(self.FPS)
+    def run(self):
+        self.running = True
+        while self.running:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.running = False
+                elif event.type == pg.KEYDOWN:
+                    self.handle_key_press(event)  # Handle individual key press events
+                
+            if not self.paused:  # Only update game state if not paused
+                self.update_camera()  # Continuous camera updates based on key states
+                self.draw()
+                pg.display.set_caption(str(self.clock.get_fps()))
+                pg.display.flip()
+                self.clock.tick(self.FPS)
+        
+        pg.quit()  # Clean up and close the application properly
+
+            
+
+    def update_camera(self):
+        # Get the current state of all keys
+        keys = pg.key.get_pressed()
+        
+        # Define movement speed and rotation speed
+        move_speed = 0.1  # adjust as needed
+        rotation_speed = 0.05  # adjust as needed
+        
+        # Adjust the camera's position based on key presses
+        if keys[pg.K_w]:  # Move forward
+            self.camera.position += self.camera.forward * move_speed
+        if keys[pg.K_s]:  # Move backward
+            self.camera.position -= self.camera.forward * move_speed
+        if keys[pg.K_a]:  # Strafe left
+            self.camera.position -= self.camera.right * move_speed
+        if keys[pg.K_d]:  # Strafe right
+            self.camera.position += self.camera.right * move_speed
+
+        # Adjust the camera's yaw based on left or right arrow keys
+        if keys[pg.K_LEFT]:
+            self.camera.yaw -= rotation_speed
+            self.camera.update_vectors()  # Update forward, right, up vectors based on the new yaw
+        if keys[pg.K_RIGHT]:
+            self.camera.yaw += rotation_speed
+            self.camera.update_vectors()
+
+        # Make sure to update the camera's matrix after changing position or orientation
+        # This line assumes you have a method to update the camera matrix based on the current position and orientation
+        self.camera.update_vectors()
+
+
+    def handle_key_press(self, event):
+    # Check for specific keys and perform actions
+        if event.key == pg.K_ESCAPE:
+            # Example: Quit the game when the ESC key is pressed
+            self.running = False
+        elif event.key == pg.K_f:
+            # Example: Toggle fullscreen mode
+            pg.display.toggle_fullscreen()
+        elif event.key == pg.K_p:
+            # Example: Pause the game
+            self.paused = not self.paused  # Toggle pause state
+        # Add more key bindings as needed
+
+
     # this checks if the application is closed
 
 if __name__ == '__main__': 
