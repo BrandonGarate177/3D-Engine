@@ -5,15 +5,20 @@ from matrix_functions import *
 
 
 class Object3D: 
-    def __init__(self, render): 
+    def __init__(self, render, vertexes, faces): 
         self.render = render
         # self.vertexes = np.array([np.array(v) for v in vertexes])
-        
         # self.faces = np.array([np.array(face) for face in faces])
-        self.vertexes = np.array([(0, 0, 0, 1), (0, 1, 0, 1), (1, 1, 0, 1), (1, 0, 0, 1),
-                                  (0, 0, 1, 1), (0, 1, 1, 1), (1, 1, 1, 1), (1, 0, 1, 1) ])
+    
+        # self.faces = np.array(faces)
+
+        self.vertexes = np.array(vertexes, dtype=float)  # Assuming all vertices are consistently formatted
+        self.faces = faces  # Keep as a list of lists
+
+        # self.vertexes = np.array([(0, 0, 0, 1), (0, 1, 0, 1), (1, 1, 0, 1), (1, 0, 0, 1),
+        #                           (0, 0, 1, 1), (0, 1, 1, 1), (1, 1, 1, 1), (1, 0, 1, 1) ])
         
-        self.faces = np.array([(0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 5, 1), (2, 3, 7, 6), (1, 2, 6, 5), (0, 3, 7, 4)])
+        # self.faces = np.array([(0, 1, 2, 3), (4, 5, 6, 7), (0, 4, 5, 1), (2, 3, 7, 6), (1, 2, 6, 5), (0, 3, 7, 4)])
        
 # THIS SHIT IS PISSING ME OFF^^^^^ 
 
@@ -46,7 +51,7 @@ class Object3D:
             color, face = color_face
             polygon = vertexes[face]
             if not np.any((polygon == self.render.H_WIDTH) | (polygon == self.render.H_HEIGHT)):
-                pg.draw.polygon(self.render.screen, color, polygon, 3)
+                pg.draw.polygon(self.render.screen, color, polygon, 1)
                 if self.label:
                     text = self.font.render(self.label[index], True, pg.Color('white'))
                     self.render.screen.blit(text, polygon[-1])
@@ -54,7 +59,7 @@ class Object3D:
         if self.draw_vertixes:
             for vertex in vertexes:
                 if not np.any((vertex == self.render.H_WIDTH) | (vertex == self.render.H_HEIGHT)):
-                    pg.draw.circle(self.render.screen, pg.Color('white'), vertex, 6)
+                    pg.draw.circle(self.render.screen, pg.Color('white'), vertex, 2)
 
 
         # for face in self.faces:

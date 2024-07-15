@@ -15,7 +15,7 @@ class Camera:
         self.far_plane = 100 
 
 
-        self.moving_speed = 0.02
+        self.moving_speed = 0.10
         self.rotation_speed = 0.01
 
 
