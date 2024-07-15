@@ -41,14 +41,13 @@ class SoftwareRender:
         # self.object = self.get_object_from_file('resources/t_34_obj.obj')
         self.object = Object3D(self)
         self.object.translate([0.2, 0.4, 0.2])
-        #self.object.rotate_y(math.pi / 6)
 
-        # self.axes = Axes(self)
-        # self.axes.translate([0.7, 0.9, 0.7])
-        # self.world_axes= Axes(self)
-        # self.world_axes.movement_flag = False
-        # self.world_axes.scale(2.5)
-        # self.world_axes.translate([0.0001, 0.0001, 0.0001])
+        self.axes = Axes(self)
+        self.axes.translate([0.7, 0.9, 0.7])
+        self.world_axes= Axes(self)
+        self.world_axes.movement_flag = False
+        self.world_axes.scale(2.5)
+        self.world_axes.translate([0.0001, 0.0001, 0.0001])
 
     # def get_object_from_file(self, filename):
     #         vertex, faces = [], []
@@ -64,8 +63,8 @@ class SoftwareRender:
 # CHEK THIS FUNCTION ^^^^
     def draw(self):
         self.screen.fill(pg.Color('darkslategray'))
-        # self.axes.draw()
-        # self.world_axes.draw()
+        self.axes.draw()
+        self.world_axes.draw()
         self.object.draw()
 
     def run(self): 
