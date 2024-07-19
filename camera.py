@@ -18,29 +18,59 @@ class Camera:
 
         self.update_vectors()
 
-    def update_vectors(self):
-        # Calculate the new direction vector
-        x = math.cos(self.yaw) * math.cos(self.pitch)
-        z = math.sin(self.yaw) * math.cos(self.pitch)
-        y = math.sin(self.pitch)
-        self.forward = np.array([x, y, z])
-        self.right = np.cross(np.array([0, 1, 0]), self.forward)
-        self.up = np.cross(self.forward, self.right)
+    # def update_vectors(self):
+    #     # Calculate the new direction vector
+    #     x = math.cos(self.yaw) * math.cos(self.pitch)
+    #     z = math.sin(self.yaw) * math.cos(self.pitch)
+    #     y = math.sin(self.pitch)
+    #     self.forward = np.array([x, y, z])
+    #     self.right = np.cross(np.array([0, 1, 0]), self.forward)
+    #     self.up = np.cross(self.forward, self.right)
 
-    def control(self):
-        key = pg.key.get_pressed()
-        if key[pg.K_a]:
-            self.position -= self.right * self.moving_speed
-        if key[pg.K_d]:
-            self.position += self.right * self.moving_speed
-        if key[pg.K_w]:
-            self.position += self.forward * self.moving_speed
-        if key[pg.K_s]:
-            self.position -= self.forward * self.moving_speed
-        if key[pg.K_SPACE]:
-            self.position += self.up * self.moving_speed
-        if key[pg.K_LSHIFT]:
-            self.position -= self.up * self.moving_speed
+    def update_vectors(self):
+        # Update forward vector based on yaw and pitch
+        self.forward = np.array([
+            math.cos(self.pitch) * math.sin(self.yaw),
+            math.sin(self.pitch),
+            math.cos(self.pitch) * math.cos(self.yaw)
+        ])
+        # Right vector is horizontal orthogonal to the forward vector
+        self.right = np.cross(self.forward, np.array([0, 1, 0]))
+        self.right /= np.linalg.norm(self.right)  # Normalize
+        # Recompute the up vector
+        self.up = np.cross(self.right, self.forward)
+
+
+    # def control(self):
+    #     key = pg.key.get_pressed()
+        
+    #     # Debugging: Print position and direction vectors before update
+    #     print(f"Position before update: {self.position}")
+    #     print(f"Forward vector: {self.forward}")
+    #     print(f"Right vector: {self.right}")
+    #     print(f"Up vector: {self.up}")
+        
+    #     if key[pg.K_a]:
+    #         print("A key pressed")
+    #         self.position -= self.right * self.moving_speed
+    #     if key[pg.K_d]:
+    #         print("D key pressed")
+    #         self.position += self.right * self.moving_speed
+    #     if key[pg.K_w]:
+    #         print("W key pressed")
+    #         self.position += self.forward * self.moving_speed
+    #     if key[pg.K_s]:
+    #         print("S key pressed")
+    #         self.position -= self.forward * self.moving_speed
+    #     if key[pg.K_SPACE]:
+    #         print("SPACE key pressed")
+    #         self.position += np.array([0, 1, 0]) * self.moving_speed
+    #     if key[pg.K_LSHIFT]:
+    #         print("LSHIFT key pressed")
+    #         self.position -= np.array([0, 1, 0]) * self.moving_speed
+        
+    #     # Debugging: Print position after update
+    #     print(f"Position after update: {self.position}")
 
     def camera_matrix(self):
         # Camera position (eye point)
@@ -85,15 +115,3 @@ class Camera:
         self.pitch = max(-math.pi/2, min(math.pi/2, self.pitch))
         self.update_vectors()
 
-    def update_vectors(self):
-        # Update forward vector based on yaw and pitch
-        self.forward = np.array([
-            math.cos(self.pitch) * math.sin(self.yaw),
-            math.sin(self.pitch),
-            math.cos(self.pitch) * math.cos(self.yaw)
-        ])
-        # Right vector is horizontal orthogonal to the forward vector
-        self.right = np.cross(self.forward, np.array([0, 1, 0]))
-        self.right /= np.linalg.norm(self.right)  # Normalize
-        # Recompute the up vector
-        self.up = np.cross(self.right, self.forward)
